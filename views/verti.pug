@@ -1,0 +1,104 @@
+doctype html
+//
+  Verti by HTML5 UP
+  html5up.net | @ajlkn
+  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+head
+  title Earthquake Monitor
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, user-scalable=no')
+  link(rel='stylesheet' href='/assets/css/main.css')
+#page-wrapper
+  // Header
+  #header-wrapper
+    header#header.container
+      // Logo
+      #logo
+        h1
+          a(href='index.html') Quakes
+        span Powered by USGS
+      // Nav
+      nav#nav
+        ul
+          li
+            a(href='/') Go to Today
+            
+  // Banner
+  #banner-wrapper
+    #banner.box.container
+      .row
+        .col-7.col-12-medium
+          h2 Monitor quakes in real time
+          p All data provided by USGS
+        .col-5.col-12-medium
+          ul
+            li
+              a.button.large.icon.solid.fa-arrow-circle-right(href=`/${moment(currentDay).add(-1, 'days').format('YYYY-MM-DD')}/${currentDay}`) Previous Day
+            li
+              a.button.alt.large.icon.solid.fa-question-circle(href='https://earthquake.usgs.gov/fdsnws/event/1/') API
+  // Features
+  #features-wrapper
+    .container.d-flex
+      .row
+        .col-12(style='text-align: center')
+          h2 #{moment(data.features[0].properties.time).format('MMMM Do YYYY')} Eartquakes
+          .term
+            form(name='form1' method='post' action='insert_ac.php')
+              p (Above 5.0 Mag)
+
+        each quake in data.features
+          .col-4.col-12-medium
+            // Box
+            section.box.feature
+              .inner(style='text-align: center')
+                header
+                  case quake.properties.place.split('of ').length
+                    when 2
+                      h2 #{quake.properties.place.split('of ')[1]}
+                      p #{quake.properties.place.split('of ')[0]} of location
+                    when 1
+                      h2 #{quake.properties.place}
+                      p Epicenter
+                  
+                p Registered on #{moment(quake.properties.time).format('MMMM Do YYYY, h:mm:ss a')}
+                p 
+                  span(style='font-weight: 700') Magnitude:
+                  |  #{quake.properties.mag}
+                  span(style='font-style: italic')  (Richter)
+                a.button.quake.icon.solid.fa-arrow-circle-right(href=`${quake.properties.url}`) More
+                
+                
+                
+                
+  // Main
+  #main-wrapper
+    .container
+      .row.gtr-200
+        .col-12.col-12-medium.imp-medium
+          // Content
+          #content
+            section.last
+              h2 So what&apos;s this all about?
+              p This is Quakes. Just a simple site that monitors all the earthquakes happening around the world in real time. You can specify the time period you're searching for and the minimum magnitude.
+              p We use the data provided by the United States Geological Survey in order to display all quakes matching our criteria.
+              P Built in Node.JS using Express, Moment.js and Request. Take a look around!
+                
+              a.button.icon.solid.fa-arrow-circle-right(href='https://www.usgs.gov/') USGS
+  // Footer
+  #footer-wrapper
+    footer#footer.container
+      .row
+        .col-12
+          #copyright
+            ul.menu
+              li Built using the Verti Template from HTML5 UP (Slightly modified)
+              li
+                | Design: 
+                a(href='http://html5up.net') HTML5 UP
+// Scripts
+script(src='/assets/js/jquery.min.js')
+script(src='/assets/js/jquery.dropotron.min.js')
+script(src='/assets/js/browser.min.js')
+script(src='/assets/js/breakpoints.min.js')
+script(src='/assets/js/util.js')
+script(src='/assets/js/main.js')
